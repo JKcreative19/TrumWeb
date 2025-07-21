@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Trump Tribune - Daily News & Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: -webkit-linear-gradient(45deg, #ef4444, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text; /* Standard property for compatibility */
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+
+    <!-- Header -->
+    <header class="bg-gray-800/50 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl md:text-3xl font-black tracking-tighter">
+                The <span class="gradient-text">Trump</span> Tribune
+            </h1>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="text-gray-300 hover:text-white transition-colors">Home</a>
+                <a href="#" class="text-gray-300 hover:text-white transition-colors">Analysis</a>
+                <a href="#" class="text-gray-300 hover:text-white transition-colors">Polls</a>
+                <a href="#" class="text-gray-300 hover:text-white transition-colors">About</a>
+            </nav>
+            <button class="md:hidden p-2 rounded-md hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 md:py-12">
+
+        <!-- Featured Article -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 border-l-4 border-red-500 pl-4">Featured Story</h2>
+            <div class="bg-gray-800 rounded-lg overflow-hidden md:flex items-center shadow-2xl">
+                <img src="https://placehold.co/600x400/1f2937/ffffff?text=Trump+Rally" 
+                     onerror="this.onerror=null;this.src='https://placehold.co/600x400/1f2937/ffffff?text=Image+Error';"
+                     alt="Featured Article Image" class="w-full md:w-1/2 h-auto object-cover">
+                <div class="p-6 md:p-8">
+                    <span class="text-sm font-semibold text-red-400 bg-red-900/50 px-3 py-1 rounded-full">POLITICS</span>
+                    <h3 class="text-2xl md:text-3xl font-bold mt-4 mb-3 leading-tight">Trump Addresses Supporters in Key Swing State</h3>
+                    <p class="text-gray-400 mb-6">
+                        Former President Donald Trump held a major rally in Pennsylvania, outlining his economic platform and criticizing the current administration's policies. Thousands of supporters were in attendance...
+                    </p>
+                    <a href="#" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105">
+                        Read Full Story &rarr;
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest News Grid -->
+        <section>
+            <h2 class="text-3xl font-bold mb-6 border-l-4 border-blue-500 pl-4">Latest News</h2>
+            <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Live news will be loaded here by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 border-t border-gray-700 mt-12">
+        <div class="container mx-auto px-4 py-6 text-center text-gray-400">
+            <p>&copy; 2024 The Trump Tribune. All Rights Reserved.</p>
+            <p class="text-sm mt-2">This website is an independent news aggregation and analysis project and is not affiliated with Donald J. Trump or any
+        </div>
+    </footer>
+
+    <script>
+        async function loadNews() {
+            const res = await fetch('http://localhost:3001/api/news');
+            const news = await res.json();
+            const grid = document.getElementById('news-grid');
+            grid.innerHTML = news.map(article => `
+                <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300 flex flex-col">
+                    <div class="p-6 flex-grow flex flex-col">
+                        <span class="text-sm font-semibold text-blue-400 bg-blue-900/50 px-3 py-1 rounded-full self-start">LIVE</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2 leading-tight flex-grow">${article.title}</h3>
+                        <a href="${article.link}" target="_blank" class="mt-auto text-red-400 hover:text-red-300 font-semibold">Read More...</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+        loadNews();
+    </script>
+</body>
+</html>
